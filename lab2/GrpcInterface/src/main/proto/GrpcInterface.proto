@@ -1,0 +1,94 @@
+  syntax = "proto3";
+
+  option java_multiple_files = true;
+  option java_outer_classname = "GrpcAppProto";
+  option objc_class_prefix = "GAP";
+
+  // The service definition.
+  service ServiceName {
+
+    rpc readRecord(ReadRecordRequest) returns (ReadRecordResponse) {}
+
+    // Unary procedure for writing record data
+    rpc writeRecord(WriteRecordRequest) returns (WriteRecordResponse) {}
+
+    // Server-to-client streaming procedure for displaying all record data
+    rpc displayAllRecords(DisplayAllRecordsRequest) returns (DisplayAllRecordsResponse) {}
+
+    rpc displayAllImages(DisplayAllImagesRequest) returns (DisplayAllImagesResponse) {}
+
+    // Server-to-client streaming procedure for searching records asynchronously
+    rpc searchRecords(SearchRecordsRequest) returns (stream SearchRecordsResponse) {}
+
+    // Server-to-client streaming procedure for downloading images asynchronously
+    rpc downloadImage(DownloadImageRequest) returns (stream DownloadImageResponse) {}
+
+    // Client-to-server streaming procedure for uploading images asynchronously
+    rpc uploadImage(stream UploadImageRequest) returns (stream UploadImageResponse) {}
+  }
+
+
+  message ReadRecordRequest {
+    int32 record_id = 1;
+  }
+
+  message ReadRecordResponse {
+    string record_data = 1;
+  }
+
+  message WriteRecordRequest {
+    string name = 1;
+    int32 age = 2;
+    int32 image_id = 3;
+  }
+
+  message WriteRecordResponse {
+    bool success = 1;
+  }
+
+  message DisplayAllImagesRequest {
+    // No specific fields needed
+  }
+
+  message DisplayAllImagesResponse {
+    string images_data = 1;
+  }
+
+  message DisplayAllRecordsRequest {
+    // No specific fields needed
+  }
+
+  message DisplayAllRecordsResponse {
+    // id - imie - wiek
+    string record_data = 1;
+  }
+
+  message SearchRecordsRequest {
+    // kryterium - wiek
+    int32 age = 1;
+  }
+
+  message SearchRecordsResponse {
+    string message = 1;
+  }
+
+  message DownloadImageRequest {
+    string image_name = 1;
+    int32 num_of_bytes = 2;
+    bytes chunk = 3;
+  }
+
+  message DownloadImageResponse {
+    bytes chunk = 1;
+  }
+
+  message UploadImageRequest {
+    string image_name = 1;
+    int32 num_of_bytes = 2;
+    bytes chunk = 3;
+  }
+
+  message UploadImageResponse {
+    string num_of_bytes = 1;
+    bool success = 2;
+  }
